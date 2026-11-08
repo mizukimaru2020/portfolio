@@ -1,0 +1,168 @@
+<!doctype html>
+<html lang="ja">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="description" content="Unity / C#でゲームを制作するmizuのポートフォリオ。BoxShootingシリーズ。">
+<title>mizu Portfolio</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Dela+Gothic+One&family=Zen+Kaku+Gothic+New:wght@400;500;700&family=JetBrains+Mono:wght@400;600&display=swap">
+<style>
+/* Layout: graph-paper page; a live shooter canvas as the hero, then a single column of work, skills, contact. */
+:root{
+  --paper:#f3f5f8; --grid:#dfe4ec; --ink:#16213a; --muted:#5a6680;
+  --accent:#2f5bff; --hot:#ff8a1f; --card:#ffffff; --line:#c9d1de;
+  --f-display:"Dela Gothic One","Hiragino Kaku Gothic StdN","Yu Gothic",sans-serif;
+  --f-body:"Zen Kaku Gothic New","Hiragino Sans","Yu Gothic",sans-serif;
+  --f-mono:"JetBrains Mono",ui-monospace,Menlo,monospace;
+}
+@media (prefers-color-scheme: dark){:root:not([data-theme="light"]){
+  --paper:#0f1424; --grid:#1b2338; --ink:#e8ecf5; --muted:#9aa5bf;
+  --accent:#7d9bff; --hot:#ffa04d; --card:#161d31; --line:#2a3450; color-scheme:dark}}
+:root[data-theme="dark"]{
+  --paper:#0f1424; --grid:#1b2338; --ink:#e8ecf5; --muted:#9aa5bf;
+  --accent:#7d9bff; --hot:#ffa04d; --card:#161d31; --line:#2a3450; color-scheme:dark}
+
+*{box-sizing:border-box}
+body{
+  background-color:var(--paper);
+  background-image:linear-gradient(var(--grid) 1px,transparent 1px),linear-gradient(90deg,var(--grid) 1px,transparent 1px);
+  background-size:24px 24px;
+  color:var(--ink); font-family:var(--f-body); font-size:16px; line-height:1.75;
+}
+.wrap{max-width:880px;margin:0 auto;
+  padding-left:max(16px,env(safe-area-inset-left,0px));
+  padding-right:max(16px,env(safe-area-inset-right,0px));
+  padding-block:40px 64px; display:grid; gap:56px}
+a{color:var(--accent)}
+a:focus-visible,button:focus-visible{outline:3px solid var(--hot);outline-offset:3px}
+
+/* hero */
+.hero{display:grid;gap:20px}
+.tag{font-family:var(--f-mono);font-size:12px;letter-spacing:.12em;text-transform:uppercase;color:var(--muted)}
+h1{font-family:var(--f-display);font-weight:400;font-size:clamp(64px,16vw,128px);line-height:.95;margin:0;letter-spacing:-.01em}
+h1 .dot{color:var(--hot)}
+.lead{font-size:clamp(17px,2.4vw,20px);max-width:36em;margin:0;text-wrap:pretty}
+.facts{display:flex;flex-wrap:wrap;gap:8px;margin:0;padding:0;list-style:none}
+.facts li{font-family:var(--f-mono);font-size:13px;border:1.5px solid var(--ink);padding:4px 10px;background:var(--card)}
+
+/* sections */
+h2{font-family:var(--f-display);font-weight:400;font-size:28px;margin:0 0 20px;display:flex;align-items:center;gap:12px;text-wrap:balance}
+h2::before{content:"";width:14px;height:14px;background:var(--hot);flex:none}
+
+.work{display:grid;gap:20px}
+.game{border:2px solid var(--ink);background:var(--card);display:grid;grid-template-columns:200px 1fr}
+.game .cover{background:var(--ink);display:grid;place-items:center;min-height:180px;position:relative;overflow:hidden}
+.game .cover span{font-family:var(--f-display);color:var(--paper);font-size:26px;line-height:1.05;text-align:center;padding:12px;position:relative;z-index:1}
+.game .cover i{position:absolute;width:22px;height:22px;border:2px solid var(--hot)}
+.game.featured{grid-template-columns:1fr}
+.game .shot{display:block;width:100%;max-width:100%;height:auto;aspect-ratio:16/9;object-fit:cover;border-bottom:2px solid var(--ink);background:#fff}
+.game .body{padding:20px 22px;display:grid;gap:12px;min-width:0}
+.game h3{margin:0;font-size:22px;font-weight:700;display:flex;flex-wrap:wrap;align-items:center;gap:10px}
+.status{font-family:var(--f-mono);font-size:11px;letter-spacing:.08em;padding:2px 8px;border:1.5px solid currentColor}
+.status.live{color:var(--accent)} .status.soon{color:var(--hot)}
+.status.award{color:var(--paper);background:var(--hot);border-color:var(--hot)}
+.game p{margin:0;color:var(--muted)}
+dl.spec{display:grid;grid-template-columns:auto 1fr;gap:2px 16px;margin:0;font-size:14px}
+dl.spec dt{font-family:var(--f-mono);color:var(--muted);font-size:12px;padding-top:2px}
+dl.spec dd{margin:0}
+.btn{justify-self:start;display:inline-block;font-weight:700;text-decoration:none;color:var(--paper);background:var(--ink);padding:8px 16px;border:2px solid var(--ink)}
+.btn:hover{background:var(--accent);border-color:var(--accent)}
+
+.skills{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:16px}
+.skill{border-top:2px solid var(--ink);padding-top:10px}
+.skill b{display:block;font-size:17px}
+.skill span{color:var(--muted);font-size:14px}
+
+.contact{display:flex;flex-wrap:wrap;gap:12px}
+.contact a{font-family:var(--f-mono);font-size:14px;text-decoration:none;border:2px solid var(--ink);background:var(--card);color:var(--ink);padding:10px 16px}
+.contact a:hover{border-color:var(--accent);color:var(--accent)}
+footer{font-family:var(--f-mono);font-size:12px;color:var(--muted)}
+
+@media (max-width:560px){
+  .game{grid-template-columns:1fr}
+  .game .cover{min-height:120px}
+}
+</style>
+<style>body{margin:0} img{max-width:100%}</style>
+</head>
+<body>
+
+<div class="wrap">
+  <header class="hero">
+    <div class="tag">Unity / C# Game Developer</div>
+    <h1>mizu<span class="dot">.</span></h1>
+    <p class="lead">Unityでのゲーム制作歴は約3年。トップダウンシューティングを中心に、遊びの手触りとそれを支える設計の両方を詰めるのが好きです。本業は数学科の学生です。</p>
+    <ul class="facts">
+      <li>Unity歴 約3年</li>
+      <li>C#</li>
+      <li>リリース 2作</li>
+      <li>数学科 在籍</li>
+      <li>リモート 週15h〜可</li>
+    </ul>
+  </header>
+
+  <section>
+    <h2>Works</h2>
+    <div class="work">
+      <article class="game featured">
+        <img class="shot" src="boxshooting2-title.webp" width="1280" height="720" alt="BoxShooting IIのタイトル画面。四角いキャラクターたちとPlay・Exitのメニュー">
+        <div class="body">
+          <h3>BoxShooting II <span class="status live">RELEASED</span> <span class="status soon">NEW</span></h3>
+          <p>BoxShootingの続編。前作と同じチームで制作し、2026年11月にitch.ioでリリースしました。</p>
+          <dl class="spec">
+            <dt>Role</dt><dd><strong>システム全般（プログラム担当）</strong></dd>
+            <dt>Engine</dt><dd>Unity</dd>
+            <dt>Release</dt><dd>2026年11月</dd>
+            <dt>Period</dt><dd>約3か月（実働）</dd>
+            <dt>AI</dt><dd>UIデザインのみ生成AIを使用（プログラムは不使用）</dd>
+          </dl>
+          <a class="btn" href="https://porter-official.itch.io/boxshooting2" target="_blank" rel="noopener">itch.ioで遊ぶ →</a>
+        </div>
+      </article>
+
+      <article class="game featured">
+        <img class="shot" src="boxshooting-title.webp" width="1280" height="720" alt="BoxShootingのタイトル画面。四角いキャラクターとPlay・Credit・Quitのメニュー">
+        <div class="body">
+          <h3>BoxShooting <span class="status live">RELEASED</span></h3>
+          <p>数分で遊べるハイパーカジュアルな2Dシューティング。短いプレイの中にボス戦を複数用意しています。2人チームでの制作。</p>
+          <dl class="spec">
+            <dt>Role</dt><dd><strong>システム全般（プログラム担当）</strong></dd>
+            <dt>Contest</dt><dd>ゲームクリエイターコンテスト2023 応募作品</dd>
+            <dt>Engine</dt><dd>Unity</dd>
+            <dt>Platform</dt><dd>Windows</dd>
+            <dt>Release</dt><dd>2023年4月</dd>
+            <dt>Input</dt><dd>キーボード・マウス</dd>
+            <dt>Period</dt><dd>約2か月（実働）</dd>
+            <dt>AI</dt><dd>生成AI不使用</dd>
+          </dl>
+          <a class="btn" href="https://porter-official.itch.io/boxshooting" target="_blank" rel="noopener">itch.ioで遊ぶ →</a>
+        </div>
+      </article>
+    </div>
+  </section>
+
+  <section>
+    <h2>Skills</h2>
+    <div class="skills">
+      <div class="skill"><b>Unity / C#</b><span>約3年。2Dシューティングの企画から実装、リリースまで</span></div>
+      <div class="skill"><b>ゲームプレイ実装</b><span>2作品でシステム全般を担当し、プログラムはどちらも生成AIを使わずに実装。弾・敵・ボスの挙動、ステージ進行、入力まわり</span></div>
+      <div class="skill"><b>数学</b><span>数学科在籍。ベクトル・行列・確率など、ゲームの裏側の計算に強い</span></div>
+    </div>
+  </section>
+
+  <section>
+    <h2>Contact</h2>
+    <div class="contact">
+      <a href="https://x.com/mizu_GameDev" target="_blank" rel="noopener">X @mizu_GameDev</a>
+      <a href="https://porter-official.itch.io/" target="_blank" rel="noopener">itch.io</a>
+    </div>
+  </section>
+
+  <footer>このサイトは生成AI（Claude）を用いて作成しています。掲載作品のプログラムにはAIを使用していません（BoxShooting IIのUIデザインのみ生成AIを使用）。<br>© mizu</footer>
+</div>
+
+
+</body>
+</html>
